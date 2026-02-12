@@ -1,4 +1,4 @@
-module p-switch
+module github.com/lutefd/p-switch
 
 go 1.24
 
