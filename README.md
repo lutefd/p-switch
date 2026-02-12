@@ -14,7 +14,7 @@ A beautiful TUI to switch between Git profiles (personal/work) on macOS.
 ### Option 1: Install from GitHub (Recommended)
 
 ```bash
-go install github.com/yourusername/p-switch@latest
+go install github.com/lutefd/p-switch@latest
 ```
 
 Then run `p-switch` once to generate the config file at `~/.config/p-switch/config.yaml`, edit it with your details, and run again!
@@ -22,7 +22,7 @@ Then run `p-switch` once to generate the config file at `~/.config/p-switch/conf
 ### Option 2: Build from source
 
 ```bash
-git clone https://github.com/yourusername/p-switch.git
+git clone https://github.com/lutefd/p-switch.git
 cd p-switch
 go build -o p-switch
 chmod +x p-switch
