@@ -1,0 +1,11 @@
+profiles:
+  personal:
+    name: "Your Name"
+    email: "your.personal@email.com"
+    sshIdentityFile: "~/.ssh/personal"
+  work:
+    name: "Your Name"
+    email: "your.work@email.com"
+    sshIdentityFile: "~/.ssh/work"
+
+sshConfigPath: "~/.ssh/config"
