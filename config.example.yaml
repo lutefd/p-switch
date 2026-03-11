@@ -3,9 +3,11 @@ profiles:
     name: "Your Name"
     email: "your.personal@email.com"
     sshIdentityFile: "~/.ssh/personal"
+    gpgKey: ""  # GPG key ID for commit signing (optional, leave empty to disable)
   work:
     name: "Your Name"
     email: "your.work@email.com"
     sshIdentityFile: "~/.ssh/work"
+    gpgKey: ""  # GPG key ID for commit signing (optional, leave empty to disable)
 
 sshConfigPath: "~/.ssh/config"

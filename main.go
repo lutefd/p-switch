@@ -20,6 +20,7 @@ type Profile struct {
 	Name            string `yaml:"name"`
 	Email           string `yaml:"email"`
 	SSHIdentityFile string `yaml:"sshIdentityFile"`
+	GPGKey          string `yaml:"gpgKey"`
 }
 
 type Config struct {
@@ -166,11 +167,16 @@ func (m model) View() string {
 
 	if m.success {
 		profile := m.config.Profiles[m.selected]
+		gpgInfo := "none"
+		if profile.GPGKey != "" {
+			gpgInfo = profile.GPGKey
+		}
 		return successStyle.Render(fmt.Sprintf("Switched to %s profile!\n\n"+
 			"Email: %s\n"+
-			"SSH Key: %s\n\n"+
+			"SSH Key: %s\n"+
+			"GPG Key: %s\n\n"+
 			"Press any key to exit...\n",
-			m.selected, profile.Email, profile.SSHIdentityFile))
+			m.selected, profile.Email, profile.SSHIdentityFile, gpgInfo))
 	}
 
 	s := titleStyle.Render("Git Profile Switcher") + "\n\n"
@@ -257,6 +263,24 @@ func switchProfile(profileName string, config Config) error {
 	cmd = exec.Command("git", "config", "--global", "user.name", profile.Name)
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("failed to set git name: %w", err)
+	}
+
+	if profile.GPGKey != "" {
+		cmd = exec.Command("git", "config", "--global", "user.signingkey", profile.GPGKey)
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to set gpg signing key: %w", err)
+		}
+
+		cmd = exec.Command("git", "config", "--global", "commit.gpgsign", "true")
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to enable commit signing: %w", err)
+		}
+	} else {
+		cmd = exec.Command("git", "config", "--global", "--unset", "user.signingkey")
+		_ = cmd.Run() // ignore error if key wasn't set
+
+		cmd = exec.Command("git", "config", "--global", "commit.gpgsign", "false")
+		_ = cmd.Run()
 	}
 
 	return nil
