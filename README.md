@@ -7,6 +7,7 @@ A beautiful TUI to switch between Git profiles (personal/work) on macOS.
 - Pretty terminal UI with Charm Bracelet
 - Keeps your emails private (config.yaml is gitignored)
 - Switches both SSH config and Git user config
+- GPG key signing support per profile
 - Easy keyboard navigation
 
 ## Setup
@@ -39,10 +40,12 @@ profiles:
     name: "Your Name"
     email: "your.personal@email.com"
     sshIdentityFile: "~/.ssh/personal"
+    gpgKey: ""  # GPG key ID for commit signing (optional, leave empty to disable)
   work:
     name: "Your Name"
     email: "your.work@email.com"
     sshIdentityFile: "~/.ssh/work"
+    gpgKey: "ABC123"  # GPG key ID for commit signing (optional, leave empty to disable)
 
 sshConfigPath: "~/.ssh/config"
 ```
@@ -75,3 +78,6 @@ vim ~/.config/p-switch/config.yaml
 When you select a profile, p-switch will:
 1. Update your `~/.ssh/config` to use the correct IdentityFile for `github.com`
 2. Update your global git config for `user.email` and `user.name`
+3. Configure GPG commit signing if a `gpgKey` is set (or disable it if empty)
+
+> **Note:** p-switch sets global git config. Local repo-level config (`.git/config`) will take precedence over these settings.
